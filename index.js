@@ -18,13 +18,15 @@ mongoose.connect(process.env.MONGO_URI, {
 // Routes
 app.post('/api/contact', async (req, res) => {
   try {
-    const newMsg = new Message(req.body);
-    await newMsg.save();
-    res.status(200).json({ message: "Message received!" });
-  } catch (err) {
-    res.status(500).json({ error: "Something went wrong." });
+    const message = new Message(req.body);
+    await message.save();
+    res.status(200).json({ message: 'Message sent successfully!' });
+  } catch (error) {
+    console.error("❌ Error while saving to MongoDB:", error); // Add this line
+    res.status(500).json({ message: 'Something went wrong!' });
   }
 });
+
 
 app.get('/', (req, res) => {
   res.send("Backend running.");
